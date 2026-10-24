@@ -1,0 +1,26 @@
+name: Save FitTrack AI source
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tested source archive
+        run: echo '24df5e916b2e8e4366c0e2631c86e26d2c57777328cf674fafab4ea63208dbaa  fittrack-ai-source.zip' | sha256sum --check -
+      - name: Extract preserved project
+        run: unzip -o fittrack-ai-source.zip
+      - name: Commit project files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- .gitignore README.md VERIFICATION.md index.html package.json package-lock.json playwright.config.ts tsconfig.json vite.config.ts vitest.config.ts src public tests
+          if git diff --cached --quiet; then
+            echo 'Project files already saved.'
+            exit 0
+          fi
+          git commit -m 'Save complete tested FitTrack AI project'
+          git push origin HEAD:main
