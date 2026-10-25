@@ -1,0 +1,49 @@
+name: Upgrade FitTrack AI to v2
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fittrack-v2-source-upgrade
+  cancel-in-progress: false
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify branch and source archive
+        run: |
+          test "$GITHUB_REF" = 'refs/heads/main'
+          echo 'febaae2839796708dd2bb55097cde068032e71d3e325c1114b9efe6bf39e14bf  fittrack-ai-v2-source.zip' | sha256sum --check -
+          git diff --exit-code dc06d25fabcb0d3c9cdff6da2310a1f2b98e23c6 HEAD -- .gitignore README.md VERIFICATION.md index.html package.json package-lock.json playwright.config.ts tsconfig.json vite.config.ts vitest.config.ts src public tests
+      - name: Apply the preserved v2 upgrade
+        run: unzip -o fittrack-ai-v2-source.zip
+      - name: Install locked dependencies
+        run: npm ci
+      - name: TypeScript check
+        run: npm run typecheck
+      - name: Domain and migration tests
+        run: npm test
+      - name: Production PWA build
+        run: npm run build
+      - name: Install test browser
+        run: npx playwright install --with-deps chromium
+      - name: Mobile browser and offline tests
+        run: npm run test:e2e
+      - name: Commit verified source to the existing production branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- .gitignore README.md VERIFICATION.md UPGRADE-v2.md VERIFICATION-v2.md PUBLISH-v2.md CATALOG-v2.md index.html package.json package-lock.json playwright.config.ts tsconfig.json vite.config.ts vitest.config.ts src public tests
+          if git diff --cached --quiet; then
+            echo 'No source changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Upgrade FitTrack AI to v2: catalog, plans and safe local migration'
+          git push origin HEAD:main
