@@ -1,5 +1,5 @@
 import Dexie, { type Table } from "dexie";
-import { initialData, type Data } from "./core";
+import { initialData, upgradeData, type Data } from "./core";
 interface StateRow {
   id: string;
   data: Data;
@@ -7,6 +7,7 @@ interface StateRow {
 }
 export class FitDB extends Dexie {
   state!: Table<StateRow, string>;
+  recovery!: Table<{ id: string; data: Data; createdAt: number }, string>;
   constructor(name = "fittrack-ai") {
     super(name);
     this.version(1).stores({ state: "id" });
@@ -21,6 +22,20 @@ export class FitDB extends Dexie {
             row.revision = 0;
           }),
       );
+    this.version(3)
+      .stores({ state: "id", recovery: "id" })
+      .upgrade(async (tx) => {
+        const row = await tx.table("state").get("personal");
+        if (row) {
+          await tx.table("recovery").put({
+            id: "before-v2-upgrade",
+            data: structuredClone(row.data),
+            createdAt: Date.now(),
+          });
+          row.data = upgradeData(row.data, true);
+          await tx.table("state").put(row);
+        }
+      });
   }
 }
 export const db = new FitDB();
@@ -35,7 +50,7 @@ export class StorageConflictError extends Error {
 export async function load() {
   const row = await db.state.get("personal");
   revision = row?.revision ?? 0;
-  return row?.data || initialData();
+  return row?.data ? upgradeData(row.data, true) : initialData();
 }
 export async function save(data: Data) {
   await db.transaction("rw", db.state, async () => {

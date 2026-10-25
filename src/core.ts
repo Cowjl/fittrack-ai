@@ -1,3 +1,9 @@
+import { equipmentTypes, patterns } from "./catalog/types";
+import { checkConfig } from "./planning/validation";
+import { goals, weekdays } from "./planning/types";
+import { buildCatalog } from "./catalog";
+import type { EquipmentType, Pattern, Difficulty, Kind } from "./catalog/types";
+import type { PlanConfig, ProgramInfo } from "./planning/types";
 export type Muscle =
   | "Chest"
   | "Front deltoids"
@@ -11,7 +17,15 @@ export type Muscle =
   | "Hamstrings"
   | "Adductors"
   | "Calves"
-  | "Abdominals";
+  | "Abdominals"
+  | "Glutes"
+  | "Hip abductors"
+  | "Forearms"
+  | "Spinal erectors"
+  | "Tibialis anterior"
+  | "Obliques"
+  | "Full body"
+  | "Mobility";
 export const muscles: Muscle[] = [
   "Chest",
   "Front deltoids",
@@ -26,8 +40,42 @@ export const muscles: Muscle[] = [
   "Adductors",
   "Calves",
   "Abdominals",
+  "Glutes",
+  "Hip abductors",
+  "Forearms",
+  "Spinal erectors",
+  "Tibialis anterior",
+  "Obliques",
+  "Full body",
+  "Mobility",
 ];
 export interface Exercise {
+  exerciseFunction?: string;
+  nameAr?: string;
+  synonyms?: string[];
+  primaryMuscles?: Muscle[];
+  regions?: string[];
+  equipmentType?: EquipmentType;
+  requiredEquipment?: EquipmentType[];
+  pattern?: Pattern;
+  kind?: Kind;
+  difficulty?: Difficulty;
+  suggestedReps?: [number, number];
+  unilateral?: boolean;
+  additionalLoading?: boolean;
+  tracking?: "reps" | "seconds";
+  startingPosition?: string;
+  startingPositionAr?: string;
+  execution?: string;
+  executionAr?: string;
+  instructionsAr?: string;
+  mistakesAr?: string;
+  breathing?: string;
+  breathingAr?: string;
+  safety?: string;
+  safetyAr?: string;
+  source?: "catalog" | "custom";
+  catalogName?: string;
   id: string;
   name: string;
   muscle: Muscle;
@@ -49,12 +97,16 @@ export interface PlanExercise {
   increment: number;
 }
 export interface Workout {
+  weekday?: string;
+  recovery?: boolean;
   id: string;
   name: string;
   focus: string;
   exercises: PlanExercise[];
 }
 export interface Program {
+  source?: "original" | "template" | "generated" | "custom";
+  info?: ProgramInfo;
   id: string;
   name: string;
   workouts: Workout[];
@@ -68,6 +120,8 @@ export interface SetLog {
   done: boolean;
 }
 export interface SessionExercise extends PlanExercise {
+  tracking?: "reps" | "seconds";
+  kind?: Kind;
   name: string;
   muscle: Muscle;
   secondary: Muscle[];
@@ -88,6 +142,9 @@ export interface Session {
   exercises: SessionExercise[];
 }
 export interface Settings {
+  favorites?: string[];
+  onboardingDismissed?: boolean;
+  activationHistory?: string[];
   lang: "ar" | "en";
   unit: "kg" | "lb";
   autoRest: boolean;
@@ -101,6 +158,8 @@ export interface Settings {
   timerRemaining?: number;
 }
 export interface Data {
+  planProfile?: PlanConfig;
+  catalogVersion?: number;
   programs: Program[];
   exercises: Exercise[];
   sessions: Session[];
@@ -278,11 +337,16 @@ export const defaultProgram = (): Program => ({
   })),
 });
 export const initialData = (): Data => ({
-  programs: [defaultProgram()],
-  exercises: structuredClone(library),
+  programs: [
+    { ...defaultProgram(), name: "My Original PPL A/B", source: "original" },
+  ],
+  exercises: buildCatalog(library),
+  catalogVersion: 2,
   sessions: [],
   active: null,
   settings: {
+    favorites: [],
+    onboardingDismissed: false,
     lang: "ar",
     unit: "kg",
     autoRest: true,
@@ -332,6 +396,8 @@ export function startSession(
         muscle: x.muscle,
         secondary: [...x.secondary],
         eligible: x.eligible,
+        tracking: x.tracking,
+        kind: x.kind,
         notes: "",
         feedback: "",
         logs: Array.from({ length: e.sets }, () => newSet()),
@@ -339,7 +405,7 @@ export function startSession(
     }),
   };
 }
-export function validSet(s: SetLog) {
+export function validSet(s: SetLog, tracking?: "reps" | "seconds") {
   return (
     typeof s.weight === "number" &&
     Number.isFinite(s.weight) &&
@@ -348,15 +414,19 @@ export function validSet(s: SetLog) {
     typeof s.reps === "number" &&
     Number.isInteger(s.reps) &&
     s.reps > 0 &&
-    s.reps <= 1000 &&
+    s.reps <= (tracking === "seconds" ? 86400 : 1000) &&
     (s.rir === null || (Number.isFinite(s.rir) && s.rir >= 0 && s.rir <= 10))
   );
 }
 export const working = (e: SessionExercise) =>
-  e.logs.filter((s) => s.done && !s.warmup && validSet(s));
+  e.logs.filter((s) => s.done && !s.warmup && validSet(s, e.tracking));
 export const volume = (s: Session) =>
   s.exercises.reduce(
-    (n, e) => n + working(e).reduce((v, x) => v + x.weight! * x.reps!, 0),
+    (n, e) =>
+      n +
+      (e.tracking === "seconds"
+        ? 0
+        : working(e).reduce((v, x) => v + x.weight! * x.reps!, 0)),
     0,
   );
 export const duration = (s: Session) =>
@@ -423,26 +493,28 @@ export function records(sessions: Session[]) {
     }
   > = {};
   sessions.forEach((s) =>
-    s.exercises.forEach((e) =>
-      working(e).forEach((x) => {
-        const r = result[e.exerciseId] || {
-          name: e.name,
-          weight: 0,
-          estimate: 0,
-          reps: {},
-        };
-        r.weight = Math.max(r.weight, x.weight!);
-        r.estimate = Math.max(r.estimate, e1rm(x, e.eligible) || 0);
-        r.reps[x.weight!] = Math.max(r.reps[x.weight!] || 0, x.reps!);
-        result[e.exerciseId] = r;
-      }),
-    ),
+    s.exercises
+      .filter((e) => e.tracking !== "seconds")
+      .forEach((e) =>
+        working(e).forEach((x) => {
+          const r = result[e.exerciseId] || {
+            name: e.name,
+            weight: 0,
+            estimate: 0,
+            reps: {},
+          };
+          r.weight = Math.max(r.weight, x.weight!);
+          r.estimate = Math.max(r.estimate, e1rm(x, e.eligible) || 0);
+          r.reps[x.weight!] = Math.max(r.reps[x.weight!] || 0, x.reps!);
+          result[e.exerciseId] = r;
+        }),
+      ),
   );
   return result;
 }
 export function backup(data: Data) {
   return JSON.stringify(
-    { version: 1, exportedAt: new Date().toISOString(), data },
+    { version: 2, exportedAt: new Date().toISOString(), data },
     null,
     2,
   );
@@ -453,7 +525,7 @@ export function parseBackup(text: string): Data {
       throw Error("Invalid backup");
     return value;
   });
-  if (!envelope || envelope.version !== 1 || !envelope.data)
+  if (!envelope || ![1, 2].includes(envelope.version) || !envelope.data)
     throw Error("Unsupported backup");
   const d = envelope.data as Data;
   const assert = (condition: unknown, message: string) => {
@@ -502,6 +574,61 @@ export function parseBackup(text: string): Data {
         typeof e.eligible === "boolean",
       "Invalid exercise",
     );
+    const strings = (x: unknown) =>
+      Array.isArray(x) && x.every((v) => typeof v === "string");
+    for (const key of [
+      "nameAr",
+      "instructionsAr",
+      "mistakesAr",
+      "startingPosition",
+      "startingPositionAr",
+      "execution",
+      "executionAr",
+      "breathing",
+      "breathingAr",
+      "safety",
+      "safetyAr",
+      "catalogName",
+      "exerciseFunction",
+    ] as const)
+      assert(
+        e[key] === undefined || typeof e[key] === "string",
+        "Invalid exercise metadata",
+      );
+    for (const key of ["synonyms", "regions"] as const)
+      assert(
+        e[key] === undefined || strings(e[key]),
+        "Invalid exercise metadata",
+      );
+    assert(
+      (e.primaryMuscles === undefined ||
+        (Array.isArray(e.primaryMuscles) &&
+          e.primaryMuscles.every((m) => muscles.includes(m)))) &&
+        (e.pattern === undefined || patterns.includes(e.pattern)) &&
+        (e.equipmentType === undefined ||
+          equipmentTypes.includes(e.equipmentType)) &&
+        (e.requiredEquipment === undefined ||
+          (Array.isArray(e.requiredEquipment) &&
+            e.requiredEquipment.every((eq) => equipmentTypes.includes(eq)))) &&
+        (e.difficulty === undefined ||
+          ["Beginner", "Intermediate", "Advanced"].includes(e.difficulty)) &&
+        (e.kind === undefined ||
+          ["Compound", "Isolation", "Conditioning", "Mobility"].includes(
+            e.kind,
+          )) &&
+        (e.tracking === undefined ||
+          ["reps", "seconds"].includes(e.tracking)) &&
+        (e.source === undefined || ["catalog", "custom"].includes(e.source)) &&
+        (e.unilateral === undefined || typeof e.unilateral === "boolean") &&
+        (e.additionalLoading === undefined ||
+          typeof e.additionalLoading === "boolean") &&
+        (e.suggestedReps === undefined ||
+          (Array.isArray(e.suggestedReps) &&
+            e.suggestedReps.length === 2 &&
+            num(e.suggestedReps[0], 1, 1000) &&
+            num(e.suggestedReps[1], e.suggestedReps[0], 1000))),
+      "Invalid exercise metadata",
+    );
     ids.add(e.id);
   });
   const programIds = new Set<string>();
@@ -516,6 +643,23 @@ export function parseBackup(text: string): Data {
       "Invalid program",
     );
     programIds.add(p.id);
+    if (p.info) {
+      const info = p.info;
+      assert(
+        typeof info.description === "string" &&
+          typeof info.progression === "string" &&
+          typeof info.rationale === "string" &&
+          goals.includes(info.goal) &&
+          ["Beginner", "Intermediate", "Advanced"].includes(info.difficulty) &&
+          num(info.frequency, 1, 7) &&
+          Array.isArray(info.equipment) &&
+          info.equipment.every((e) => equipmentTypes.includes(e)) &&
+          Array.isArray(info.warnings) &&
+          info.warnings.every((w) => typeof w === "string") &&
+          (info.config === undefined || checkConfig(info.config)),
+        "Invalid plan profile",
+      );
+    }
     const workoutIds = new Set<string>();
     p.workouts.forEach((w) => {
       assert(
@@ -526,6 +670,11 @@ export function parseBackup(text: string): Data {
           typeof w.focus === "string" &&
           Array.isArray(w.exercises) &&
           w.exercises.length,
+        "Invalid workout",
+      );
+      assert(
+        (w.recovery === undefined || typeof w.recovery === "boolean") &&
+          (w.weekday === undefined || weekdays.includes(w.weekday)),
         "Invalid workout",
       );
       workoutIds.add(w.id);
@@ -568,6 +717,15 @@ export function parseBackup(text: string): Data {
           Array.isArray(e.logs),
         "Invalid session exercise",
       );
+      assert(
+        (e.tracking === undefined ||
+          ["reps", "seconds"].includes(e.tracking)) &&
+          (e.kind === undefined ||
+            ["Compound", "Isolation", "Conditioning", "Mobility"].includes(
+              e.kind,
+            )),
+        "Invalid session exercise",
+      );
       const logIds = new Set<string>();
       e.logs.forEach((l) => {
         assert(
@@ -578,9 +736,10 @@ export function parseBackup(text: string): Data {
             typeof l.warmup === "boolean" &&
             (l.weight === null || num(l.weight, 0, 2000)) &&
             (l.reps === null ||
-              (Number.isInteger(l.reps) && num(l.reps, 1, 1000))) &&
+              (Number.isInteger(l.reps) &&
+                num(l.reps, 1, e.tracking === "seconds" ? 86400 : 1000))) &&
             (l.rir === null || num(l.rir, 0, 10)) &&
-            (!l.done || validSet(l)),
+            (!l.done || validSet(l, e.tracking)),
           "Invalid set",
         );
         logIds.add(l.id);
@@ -604,5 +763,72 @@ export function parseBackup(text: string): Data {
       (s.timerRemaining === undefined || num(s.timerRemaining, 0, 86400)),
     "Invalid settings",
   );
-  return d;
+  assert(
+    (d.planProfile === undefined || checkConfig(d.planProfile)) &&
+      (s.favorites === undefined ||
+        (Array.isArray(s.favorites) &&
+          s.favorites.every((id) => typeof id === "string"))) &&
+      (s.activationHistory === undefined ||
+        (Array.isArray(s.activationHistory) &&
+          s.activationHistory.every((id) => typeof id === "string"))) &&
+      (s.onboardingDismissed === undefined ||
+        typeof s.onboardingDismissed === "boolean"),
+    "Invalid plan profile",
+  );
+  return upgradeData(d);
+}
+
+export function upgradeData(input: Data, existing = true): Data {
+  const data = structuredClone(input);
+  const seeds = buildCatalog(library);
+  const byId = new Map(seeds.map((e) => [e.id, e]));
+  data.exercises = data.exercises.map((e) => {
+    const seed = byId.get(e.id);
+    if (!seed) return { ...e, source: e.source || "custom" };
+    const merged = { ...seed, ...e, source: e.source || "catalog" };
+    const baseline = library.find((x) => x.id === e.id);
+    if (baseline) {
+      if (e.instructions === baseline.instructions) {
+        merged.instructions = seed.instructions;
+        merged.instructionsAr = seed.instructionsAr;
+      }
+      if (e.mistakes === baseline.mistakes) {
+        merged.mistakes = seed.mistakes;
+        merged.mistakesAr = seed.mistakesAr;
+      }
+      if (JSON.stringify(e.secondary) === JSON.stringify(baseline.secondary))
+        merged.secondary = seed.secondary;
+      if (
+        e.instructions !== baseline.instructions &&
+        e.instructionsAr === undefined
+      )
+        delete merged.instructionsAr;
+      if (e.mistakes !== baseline.mistakes && e.mistakesAr === undefined)
+        delete merged.mistakesAr;
+      if (e.name !== baseline.name && e.nameAr === undefined)
+        delete merged.nameAr;
+    }
+    return merged;
+  });
+  const ids = new Set(data.exercises.map((e) => e.id));
+  data.exercises.push(...seeds.filter((e) => !ids.has(e.id)));
+  data.settings.favorites ??= [];
+  data.settings.onboardingDismissed ??= existing;
+  for (const p of data.programs) {
+    if (p.id === "default") {
+      p.source ??= "original";
+      if (p.name === "PPL A/B") p.name = "My Original PPL A/B";
+    }
+  }
+  data.catalogVersion = 2;
+  return data;
+}
+
+export const muscleSetCount = (e: SessionExercise) =>
+  e.kind === "Mobility" || e.kind === "Conditioning" ? 0 : working(e).length;
+
+export function replacePersonalData(target: Data, replacement: Data) {
+  for (const key of Object.keys(target))
+    delete (target as unknown as Record<string, unknown>)[key];
+  Object.assign(target, structuredClone(replacement));
 }

@@ -1,3 +1,4 @@
+import { ExercisePicker } from "./ExercisePicker";
 import { Check, Flame, X } from "lucide-react";
 import type { ReactNode } from "react";
 import * as C from "../core";
@@ -45,7 +46,8 @@ export function WorkoutExercises({
           <div className="grow">
             <h3 dir="ltr">{e.name}</h3>
             <p>
-              {t(e.muscle)} · {e.sets} × {e.min}–{e.max}
+              {t(e.muscle)} · {e.sets} × {e.min}–{e.max}{" "}
+              {e.tracking === "seconds" ? t("seconds") : ""}
             </p>
           </div>
           {i > 0 && (
@@ -65,6 +67,13 @@ export function WorkoutExercises({
             </button>
           )}
         </div>
+        {e.tracking === "seconds" && (
+          <p>
+            {t(
+              "Timed exercise: enter seconds in the repetitions field and 0 for added weight when unweighted.",
+            )}
+          </p>
+        )}
         {previous && (
           <p className="previous">
             {t("Previous")}:{" "}
@@ -73,7 +82,7 @@ export function WorkoutExercises({
               .join(" / ") || "—"}
           </p>
         )}
-        {settings.coach && isActive && (
+        {settings.coach && isActive && e.tracking !== "seconds" && (
           <div className="coach">
             <Flame size={16} />
             <span>
@@ -91,7 +100,7 @@ export function WorkoutExercises({
           <span>
             {t("Weight")} ({unit})
           </span>
-          <span>{t("Reps")}</span>
+          <span>{t(e.tracking === "seconds" ? "seconds" : "Reps")}</span>
           <span>RIR</span>
           <span>✓</span>
           <span />
@@ -130,7 +139,7 @@ export function WorkoutExercises({
                       (key === "reps" &&
                         (!Number.isInteger(value) ||
                           value < 1 ||
-                          value > 1000)) ||
+                          value > (e.tracking === "seconds" ? 86400 : 1000))) ||
                       (key === "rir" && value > 10) ||
                       (key === "weight" && value > 2000))
                   )
@@ -146,7 +155,7 @@ export function WorkoutExercises({
               className={"check " + (l.done ? "checked" : "")}
               aria-label={t(l.done ? "Undo" : "Done")}
               onClick={() => {
-                if (!l.done && !C.validSet(l)) {
+                if (!l.done && !C.validSet(l, e.tracking)) {
                   setError(
                     t(
                       "Sets must have a valid weight, reps and optional RIR (0–10).",
@@ -195,6 +204,33 @@ export function WorkoutExercises({
             "small",
           )}
           {isActive && (
+            <ExercisePicker
+              data={d}
+              currentId={e.exerciseId}
+              t={t}
+              onSelect={(ex) => {
+                if (
+                  e.logs.some((l) => l.done) &&
+                  !confirm(t("Confirm deletion?"))
+                )
+                  return;
+                mutate((s) => {
+                  s.exercises[i] = {
+                    ...e,
+                    exerciseId: ex.id,
+                    name: ex.name,
+                    muscle: ex.muscle,
+                    secondary: ex.secondary,
+                    eligible: ex.eligible,
+                    tracking: ex.tracking,
+                    kind: ex.kind,
+                    logs: Array.from({ length: e.sets }, () => C.newSet()),
+                  };
+                });
+              }}
+            />
+          )}
+          {isActive && (
             <select
               aria-label={t("Replace")}
               value=""
@@ -213,6 +249,8 @@ export function WorkoutExercises({
                     muscle: ex.muscle,
                     secondary: ex.secondary,
                     eligible: ex.eligible,
+                    tracking: ex.tracking,
+                    kind: ex.kind,
                     logs: Array.from({ length: e.sets }, () => C.newSet()),
                   };
                 });
@@ -255,7 +293,14 @@ export function WorkoutExercises({
             <option value="reduce">{t("Need to reduce load")}</option>
           </select>
         </label>
-        {<ExerciseDetails id={e.exerciseId} exercises={d.exercises} t={t} />}
+        {
+          <ExerciseDetails
+            id={e.exerciseId}
+            exercises={d.exercises}
+            t={t}
+            arabic={settings.lang === "ar"}
+          />
+        }
         {d.exercises.find((x) => x.id === e.exerciseId)?.equipment ===
           "Bodyweight" && (
           <small>{t("Bodyweight: enter 0 for added weight.")}</small>

@@ -79,10 +79,17 @@ test("Arabic default, backup, custom program and library work", async ({
     .locator(".modal")
     .getByRole("button", { name: "Save", exact: true })
     .click();
+  await page.getByRole("button", { name: "Save Plan", exact: true }).click();
   await expect(page.locator("main")).toContainText("My strength plan");
-  await page.getByRole("button", { name: "Library", exact: true }).click();
-  await page.getByPlaceholder("Search").fill("Hip Adduction");
-  await expect(page.locator("main .two-col .card")).toHaveCount(1);
+  await page
+    .getByRole("button", { name: "Exercise Library", exact: true })
+    .click();
+  await page
+    .getByRole("textbox", { name: "Search exercises" })
+    .fill("Hip Adduction");
+  await expect(
+    page.getByRole("heading", { name: "Hip Adduction", exact: true }),
+  ).toHaveCount(1);
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   const download = page.waitForEvent("download");
   await page
@@ -201,13 +208,11 @@ test("invalid backup is rejected and exported data restores in an independent br
     .click();
   const downloaded = await download;
   const contents = await readFile((await downloaded.path())!);
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "broken.json",
-      mimeType: "application/json",
-      buffer: Buffer.from("{broken"),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "broken.json",
+    mimeType: "application/json",
+    buffer: Buffer.from("{broken"),
+  });
   await expect(page.getByRole("alert")).toBeVisible();
   await page.getByRole("alert").getByRole("button").click();
   const independent = await browser.newContext();
@@ -216,13 +221,11 @@ test("invalid backup is rejected and exported data restores in an independent br
   await expect(other.locator("html")).toHaveAttribute("lang", "ar");
   await other.getByRole("button", { name: "الإعدادات", exact: true }).click();
   other.on("dialog", (dialog) => dialog.accept());
-  await other
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "backup.json",
-      mimeType: "application/json",
-      buffer: contents,
-    });
+  await other.locator("input[type=file]").setInputFiles({
+    name: "backup.json",
+    mimeType: "application/json",
+    buffer: contents,
+  });
   await expect(other.locator("html")).toHaveAttribute("lang", "en");
   await expect(other.getByRole("status")).toContainText("Backup imported");
   await independent.close();

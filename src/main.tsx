@@ -1,3 +1,5 @@
+import { ProgramHub } from "./components/ProgramHub";
+import { savePlan } from "./planning/engine";
 import { ExerciseEditor } from "./components/ExerciseEditor";
 import { ProgramEditor } from "./components/ProgramEditor";
 import { ExerciseDetails } from "./components/ExerciseDetails";
@@ -37,8 +39,8 @@ import {
 } from "recharts";
 import { registerSW } from "virtual:pwa-register";
 import * as C from "./core";
-import { load, save, StorageConflictError } from "./db";
-import { ar } from "./i18n";
+import { load, save, db, StorageConflictError } from "./db";
+import { ar, en } from "./i18n";
 import "./style.css";
 let offlineReady = false;
 registerSW({
@@ -99,7 +101,8 @@ function App() {
       window.removeEventListener("offline-ready", fn);
     };
   }, []);
-  const t = (s: string) => (data?.settings.lang === "ar" ? ar[s] || s : s);
+  const t = (s: string) =>
+    data?.settings.lang === "ar" ? ar[s] || s : en[s] || s;
   useEffect(() => {
     document.documentElement.dir = data?.settings.lang === "en" ? "ltr" : "rtl";
     document.documentElement.lang = data?.settings.lang || "ar";
@@ -198,14 +201,14 @@ function App() {
       {t(label)}
     </button>
   );
-  function start(w: C.Workout) {
+  function start(w: C.Workout, program = p) {
     if (active) {
       setToast(t("Active session exists"));
       setTab("Workout");
       return;
     }
     update((d) => {
-      d.active = C.startSession(w, p, d.exercises);
+      d.active = C.startSession(w, program, d.exercises);
     });
     setTab("Workout");
     setSub("");
@@ -310,7 +313,12 @@ function App() {
     </div>
   );
   const exerciseInfo = (id: string) => (
-    <ExerciseDetails id={id} exercises={d.exercises} t={t} />
+    <ExerciseDetails
+      id={id}
+      exercises={d.exercises}
+      t={t}
+      arabic={settings.lang === "ar"}
+    />
   );
   function logsUI(s: C.Session, isActive: boolean) {
     const mutate = (fn: (s: C.Session) => void) =>
@@ -376,7 +384,7 @@ function App() {
         <div className="sidebar-bottom">
           <Shield size={20} />
           <p>{t("Data saved on this device")}</p>
-          <small>FITTRACK AI · 1.0</small>
+          <small>FITTRACK AI · 2.0</small>
         </div>
       </aside>
       <main>
@@ -434,6 +442,36 @@ function App() {
                 <small>{t("This week")}</small>
               </div>
             </div>
+            <section className="card build-plan-banner">
+              <div>
+                <span className="eyebrow">FITTRACK AI 2.0</span>
+                <h3>{t("A plan that fits your life.")}</h3>
+                <p>
+                  {t(
+                    d.settings.onboardingDismissed
+                      ? "Explore ready-made plans or build your own."
+                      : "Welcome. Keep the original program or create a plan in a few steps.",
+                  )}
+                </p>
+              </div>
+              <div className="row wrap">
+                <button
+                  className="primary"
+                  onClick={() => {
+                    setTab("Program");
+                    setSub("Build My Plan");
+                  }}
+                >
+                  {t("Build My Plan")}
+                </button>
+                {!d.settings.onboardingDismissed &&
+                  button("Skip for now", () =>
+                    update((d) => {
+                      d.settings.onboardingDismissed = true;
+                    }),
+                  )}
+              </div>
+            </section>
             <div className="home-grid">
               <section className="hero">
                 <div className="hero-top">
@@ -852,140 +890,20 @@ function App() {
           </>
         )}
         {tab === "Program" && (
-          <>
-            <div className="section-title">
-              <div className="tabs">
-                {["Program", "Library"].map((x) =>
-                  button(
-                    x,
-                    () => setSub(x),
-                    sub === x || (!sub && x === "Program") ? "active" : "",
-                  ),
-                )}
-              </div>
-              {sub !== "Library" &&
-                button(
-                  "New program",
-                  () => {
-                    const p = clone(C.defaultProgram());
-                    p.id = C.uid();
-                    p.name = "My program";
-                    p.workouts = p.workouts.map((w) => ({ ...w, id: C.uid() }));
-                    setEditProgram(p);
-                  },
-                  "primary",
-                )}
-            </div>
-            {sub === "Library" ? (
-              <>
-                <div className="row filters">
-                  <input
-                    placeholder={t("Search")}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                  <select
-                    value={muscle}
-                    onChange={(e) => setMuscle(e.target.value)}
-                  >
-                    <option value="All">{t("All")}</option>
-                    {C.muscles.map((m) => (
-                      <option key={m} value={m}>
-                        {t(m)}
-                      </option>
-                    ))}
-                  </select>
-                  {button("New exercise", () =>
-                    setEditExercise({
-                      id: C.uid(),
-                      name: "",
-                      muscle: muscle === "All" ? "Chest" : (muscle as C.Muscle),
-                      secondary: [],
-                      equipment: "",
-                      instructions: "",
-                      mistakes: "",
-                      alternatives: [],
-                      category: "Custom",
-                      rest: 90,
-                      eligible: false,
-                    }),
-                  )}
-                </div>
-                <div className="two-col">
-                  {d.exercises
-                    .filter(
-                      (e) =>
-                        e.name.toLowerCase().includes(search.toLowerCase()) &&
-                        (muscle === "All" || muscle === e.muscle),
-                    )
-                    .map((e) => (
-                      <section className="card" key={e.id}>
-                        <h3 dir="ltr">{e.name}</h3>
-                        <p>
-                          {t(e.muscle)} · {t(e.equipment)}
-                        </p>
-                        {exerciseInfo(e.id)}
-                        {button("Edit", () => setEditExercise(clone(e)))}
-                      </section>
-                    ))}
-                </div>
-              </>
-            ) : (
-              <>
-                {d.programs.map((program) => (
-                  <section className="card" key={program.id}>
-                    <div className="section-title">
-                      <div>
-                        <h2>{program.name}</h2>
-                        <p>
-                          {program.workouts.length} {t("workouts")}
-                        </p>
-                      </div>
-                      <div className="row">
-                        {program.id === settings.programId ? (
-                          <span className="pill">✓</span>
-                        ) : (
-                          button("Start", () =>
-                            update((d) => {
-                              d.settings.programId = program.id;
-                            }),
-                          )
-                        )}
-                        {button("Edit", () => setEditProgram(clone(program)))}
-                      </div>
-                    </div>
-                    <div className="program-list">
-                      {program.workouts.map((w) => (
-                        <details key={w.id}>
-                          <summary>
-                            <strong dir="ltr">{w.name}</strong>
-                            <span>
-                              {w.exercises.reduce((n, e) => n + e.sets, 0)}{" "}
-                              {t("sets")}
-                            </span>
-                          </summary>
-                          <p>{t(w.focus)}</p>
-                          {w.exercises.map((e, i) => (
-                            <div className="program-ex" key={i}>
-                              <span dir="ltr">
-                                {
-                                  d.exercises.find((x) => x.id === e.exerciseId)
-                                    ?.name
-                                }
-                              </span>
-                              <b>
-                                {e.sets} × {e.min}–{e.max}
-                              </b>
-                            </div>
-                          ))}
-                        </details>
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </>
-            )}
-          </>
+          <ProgramHub
+            data={d}
+            view={sub}
+            onView={setSub}
+            t={t}
+            update={update}
+            onEditExercise={setEditExercise}
+            notify={setToast}
+            setError={setError}
+            onStartPlan={(program) => {
+              update((d) => savePlan(d, program, true));
+              start(program.workouts[0], program);
+            }}
+          />
         )}
         {tab === "Progress" &&
           (() => {
@@ -994,7 +912,7 @@ function App() {
               ),
               points = [...filtered].reverse().flatMap((s) => {
                 const e = s.exercises.find((e) => e.exerciseId === chartEx),
-                  logs = e ? C.working(e) : [];
+                  logs = e && e.tracking !== "seconds" ? C.working(e) : [];
                 return logs.length
                   ? [
                       {
@@ -1126,7 +1044,7 @@ function App() {
                     {C.muscles.map((m) => {
                       const sessions = history.filter((s) =>
                           s.exercises.some(
-                            (e) => e.muscle === m && C.working(e).length,
+                            (e) => e.muscle === m && C.muscleSetCount(e),
                           ),
                         ),
                         count = weekly.reduce(
@@ -1134,7 +1052,7 @@ function App() {
                             n +
                             s.exercises
                               .filter((e) => e.muscle === m)
-                              .reduce((n, e) => n + C.working(e).length, 0),
+                              .reduce((n, e) => n + C.muscleSetCount(e), 0),
                           0,
                         ),
                         secondary = weekly.reduce(
@@ -1142,7 +1060,7 @@ function App() {
                             n +
                             s.exercises
                               .filter((e) => e.secondary.includes(m))
-                              .reduce((n, e) => n + C.working(e).length, 0),
+                              .reduce((n, e) => n + C.muscleSetCount(e), 0),
                           0,
                         ),
                         trend = Array.from({ length: 4 }, (_, i) => ({
@@ -1158,7 +1076,7 @@ function App() {
                                 n +
                                 s.exercises
                                   .filter((e) => e.muscle === m)
-                                  .reduce((n, e) => n + C.working(e).length, 0),
+                                  .reduce((n, e) => n + C.muscleSetCount(e), 0),
                               0,
                             ),
                         }));
@@ -1186,7 +1104,7 @@ function App() {
                             {
                               weekly.filter((s) =>
                                 s.exercises.some(
-                                  (e) => e.muscle === m && C.working(e).length,
+                                  (e) => e.muscle === m && C.muscleSetCount(e),
                                 ),
                               ).length
                             }{" "}
@@ -1387,6 +1305,37 @@ function App() {
             </section>
             <section className="card">
               <h3>{t("Back up regularly")}</h3>
+              {button("Export pre-upgrade recovery backup", () => {
+                void db.recovery
+                  .get("before-v2-upgrade")
+                  .then((row) => {
+                    if (!row) {
+                      setToast(t("No pre-upgrade checkpoint on this device"));
+                      return;
+                    }
+                    const url = URL.createObjectURL(
+                      new Blob(
+                        [
+                          JSON.stringify({
+                            version: 1,
+                            data: row.data,
+                            exportedAt: new Date(row.createdAt).toISOString(),
+                          }),
+                        ],
+                        { type: "application/json" },
+                      ),
+                    );
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "fittrack-before-v2.json";
+                    a.click();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                  })
+                  .catch(() =>
+                    setError(t("Unable to read the recovery checkpoint.")),
+                  );
+              })}
+
               <p>
                 {settings.lastBackup
                   ? date(settings.lastBackup)
@@ -1411,7 +1360,7 @@ function App() {
                     if (
                       confirm(t("Replace all local data with this backup?"))
                     ) {
-                      update((d) => Object.assign(d, restored));
+                      update((d) => C.replacePersonalData(d, restored));
                       setToast(
                         restored.settings.lang === "ar"
                           ? ar["Backup imported"]
@@ -1449,7 +1398,7 @@ function App() {
                   "Sound works while the app is active. Background alerts are not guaranteed.",
                 )}
               </p>
-              <p>{t("Version")} 1.0.0 · Local rule-based coach · No API</p>
+              <p>{t("Version")} 2.0.0 · Local rule-based coach · No API</p>
             </section>
             <section className="card">
               <h3>{t("Program")}</h3>
@@ -1476,7 +1425,16 @@ function App() {
                     confirm(t("Confirm deletion?")) &&
                     confirm(t("Delete all data"))
                   )
-                    update((d) => Object.assign(d, C.initialData()));
+                    void db.recovery
+                      .clear()
+                      .then(() =>
+                        update((d) =>
+                          C.replacePersonalData(d, C.initialData()),
+                        ),
+                      )
+                      .catch(() =>
+                        setError(t("Unable to clear the recovery checkpoint.")),
+                      );
                 },
                 "danger",
               )}
@@ -1549,7 +1507,9 @@ function App() {
                   () => {
                     if (
                       editSession.exercises.some((e) =>
-                        e.logs.some((l) => l.done && !C.validSet(l)),
+                        e.logs.some(
+                          (l) => l.done && !C.validSet(l, e.tracking),
+                        ),
                       )
                     ) {
                       setError(

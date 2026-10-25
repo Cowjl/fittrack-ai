@@ -1,3 +1,4 @@
+import { equipmentTypes, patterns } from "../catalog";
 import { useState } from "react";
 import { X } from "lucide-react";
 import { muscles, type Exercise } from "../core";
@@ -53,7 +54,19 @@ export function ExerciseEditor({ exercise, t, onSave, onClose }: Props) {
             );
             return;
           }
-          onSave({ ...e, name: e.name.trim() });
+          onSave({
+            ...e,
+            instructionsAr:
+              e.instructions !== exercise.instructions &&
+              e.instructionsAr === exercise.instructionsAr
+                ? undefined
+                : e.instructionsAr,
+            name: e.name.trim(),
+            source: e.source || "custom",
+            pattern: e.pattern || "Horizontal Push",
+            kind: e.kind || "Compound",
+            difficulty: e.difficulty || "Beginner",
+          });
         }}
       >
         <div className="sticky-modal">
@@ -118,6 +131,110 @@ export function ExerciseEditor({ exercise, t, onSave, onClose }: Props) {
               ))}
           </div>
         </fieldset>
+        <label className="field">
+          <span>{t("Arabic name")}</span>
+          <input
+            value={e.nameAr || ""}
+            onChange={(ev) => set({ ...e, nameAr: ev.target.value })}
+          />
+        </label>
+        <label className="field">
+          <span>{t("Search aliases")}</span>
+          <input
+            value={(e.synonyms || []).join(", ")}
+            onChange={(ev) =>
+              set({
+                ...e,
+                synonyms: ev.target.value
+                  .split(",")
+                  .map((x) => x.trim())
+                  .filter(Boolean),
+              })
+            }
+          />
+        </label>
+        <label className="field">
+          <span>{t("Equipment type")}</span>
+          <select
+            value={e.equipmentType || "Other"}
+            onChange={(ev) =>
+              set({
+                ...e,
+                equipmentType: ev.target.value as Exercise["equipmentType"],
+                equipment: ev.target.value,
+                requiredEquipment: [
+                  ev.target.value as NonNullable<Exercise["equipmentType"]>,
+                ],
+              })
+            }
+          >
+            {equipmentTypes.map((eq) => (
+              <option key={eq} value={eq}>
+                {t(eq)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          <span>{t("Movement pattern")}</span>
+          <select
+            value={e.pattern || "Horizontal Push"}
+            onChange={(ev) =>
+              set({ ...e, pattern: ev.target.value as Exercise["pattern"] })
+            }
+          >
+            {patterns.map((x) => (
+              <option key={x} value={x}>
+                {t(x)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          <span>{t("Exercise function")}</span>
+          <select
+            value={e.kind || "Compound"}
+            onChange={(ev) =>
+              set({ ...e, kind: ev.target.value as Exercise["kind"] })
+            }
+          >
+            {["Compound", "Isolation", "Conditioning", "Mobility"].map((x) => (
+              <option key={x} value={x}>
+                {t(x)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          <span>{t("Difficulty")}</span>
+          <select
+            value={e.difficulty || "Beginner"}
+            onChange={(ev) =>
+              set({
+                ...e,
+                difficulty: ev.target.value as Exercise["difficulty"],
+              })
+            }
+          >
+            {["Beginner", "Intermediate", "Advanced"].map((x) => (
+              <option key={x} value={x}>
+                {t(x)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          <span>{t("Tracking")}</span>
+          <select
+            value={e.tracking || "reps"}
+            onChange={(ev) =>
+              set({ ...e, tracking: ev.target.value as "reps" | "seconds" })
+            }
+          >
+            <option value="reps">{t("Reps")}</option>
+            <option value="seconds">{t("seconds")}</option>
+          </select>
+        </label>
         {field("category", "Category")}
         {field("instructions", "Instructions", true)}
         {field("mistakes", "Mistakes", true)}

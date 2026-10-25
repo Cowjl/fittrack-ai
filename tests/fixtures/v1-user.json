@@ -1,0 +1,1323 @@
+{
+  "programs": [
+    {
+      "id": "default",
+      "name": "PPL A/B",
+      "workouts": [
+        {
+          "id": "w0",
+          "name": "Push A",
+          "focus": "Chest · Shoulders · Triceps",
+          "exercises": [
+            {
+              "exerciseId": "e0",
+              "sets": 3,
+              "min": 6,
+              "max": 10,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e1",
+              "sets": 2,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e2",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e3",
+              "sets": 2,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e4",
+              "sets": 3,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e5",
+              "sets": 2,
+              "min": 10,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            }
+          ]
+        },
+        {
+          "id": "w1",
+          "name": "Pull A",
+          "focus": "Back · Rear delts · Biceps",
+          "exercises": [
+            {
+              "exerciseId": "e6",
+              "sets": 3,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e7",
+              "sets": 3,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e8",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e9",
+              "sets": 3,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e10",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e11",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 90,
+              "increment": 2.5
+            }
+          ]
+        },
+        {
+          "id": "w2",
+          "name": "Legs A",
+          "focus": "Quadriceps",
+          "exercises": [
+            {
+              "exerciseId": "e12",
+              "sets": 3,
+              "min": 6,
+              "max": 10,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e13",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e14",
+              "sets": 2,
+              "min": 10,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e15",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e16",
+              "sets": 3,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e17",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            }
+          ]
+        },
+        {
+          "id": "w3",
+          "name": "Push B",
+          "focus": "Chest · Shoulders · Triceps",
+          "exercises": [
+            {
+              "exerciseId": "e18",
+              "sets": 3,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e19",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e20",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e21",
+              "sets": 2,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e22",
+              "sets": 3,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e23",
+              "sets": 2,
+              "min": 10,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            }
+          ]
+        },
+        {
+          "id": "w4",
+          "name": "Pull B",
+          "focus": "Back · Traps · Biceps",
+          "exercises": [
+            {
+              "exerciseId": "e24",
+              "sets": 3,
+              "min": 6,
+              "max": 10,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e25",
+              "sets": 3,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e26",
+              "sets": 3,
+              "min": 10,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e27",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e28",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e29",
+              "sets": 2,
+              "min": 10,
+              "max": 12,
+              "rest": 90,
+              "increment": 2.5
+            }
+          ]
+        },
+        {
+          "id": "w5",
+          "name": "Legs B",
+          "focus": "Hamstrings",
+          "exercises": [
+            {
+              "exerciseId": "e14",
+              "sets": 3,
+              "min": 10,
+              "max": 12,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e30",
+              "sets": 3,
+              "min": 8,
+              "max": 12,
+              "rest": 120,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e31",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e32",
+              "sets": 2,
+              "min": 10,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e33",
+              "sets": 3,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            },
+            {
+              "exerciseId": "e34",
+              "sets": 2,
+              "min": 12,
+              "max": 15,
+              "rest": 90,
+              "increment": 2.5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e0",
+      "name": "Bench Press",
+      "muscle": "Chest",
+      "secondary": ["Triceps", "Front deltoids"],
+      "equipment": "Barbell",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Test fixture: my custom bench cue",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Incline Dumbbell Press",
+        "Pec Fly Machine",
+        "Incline Bench Press",
+        "Decline Chest Press Machine",
+        "High to Low Cable Fly"
+      ]
+    },
+    {
+      "id": "e1",
+      "name": "Incline Dumbbell Press",
+      "muscle": "Chest",
+      "secondary": ["Triceps", "Front deltoids"],
+      "equipment": "Dumbbell",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Set your shoulders against the support. Keep wrists stacked over elbows. Lower under control and press or bring your arms together without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Bench Press",
+        "Pec Fly Machine",
+        "Incline Bench Press",
+        "Decline Chest Press Machine",
+        "High to Low Cable Fly"
+      ]
+    },
+    {
+      "id": "e2",
+      "name": "Pec Fly Machine",
+      "muscle": "Chest",
+      "secondary": ["Triceps", "Front deltoids"],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Set your shoulders against the support. Keep wrists stacked over elbows. Lower under control and press or bring your arms together without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Bench Press",
+        "Incline Dumbbell Press",
+        "Incline Bench Press",
+        "Decline Chest Press Machine",
+        "High to Low Cable Fly"
+      ]
+    },
+    {
+      "id": "e3",
+      "name": "Shoulder Press",
+      "muscle": "Front deltoids",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Dumbbell Shoulder Press"]
+    },
+    {
+      "id": "e4",
+      "name": "Lateral Raises",
+      "muscle": "Side deltoids",
+      "secondary": [],
+      "equipment": "Dumbbell",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Cable Lateral Raises"]
+    },
+    {
+      "id": "e5",
+      "name": "Triceps Pushdown",
+      "muscle": "Triceps",
+      "secondary": [],
+      "equipment": "Cable",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Overhead Triceps Extension"]
+    },
+    {
+      "id": "e6",
+      "name": "Lat Pulldown",
+      "muscle": "Back",
+      "secondary": ["Biceps"],
+      "equipment": "Cable",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk and keep your spine neutral. Pull elbows toward your torso; return slowly without swinging.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Hammer Strength D.Y. Row",
+        "Seated Cable Row",
+        "Pull-ups",
+        "T-Bar Row"
+      ]
+    },
+    {
+      "id": "e7",
+      "name": "Hammer Strength D.Y. Row",
+      "muscle": "Back",
+      "secondary": ["Biceps"],
+      "equipment": "Machine",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk and keep your spine neutral. Pull elbows toward your torso; return slowly without swinging.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Lat Pulldown",
+        "Seated Cable Row",
+        "Pull-ups",
+        "T-Bar Row"
+      ]
+    },
+    {
+      "id": "e8",
+      "name": "Seated Cable Row",
+      "muscle": "Back",
+      "secondary": ["Biceps"],
+      "equipment": "Cable",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk and keep your spine neutral. Pull elbows toward your torso; return slowly without swinging.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Lat Pulldown",
+        "Hammer Strength D.Y. Row",
+        "Pull-ups",
+        "T-Bar Row"
+      ]
+    },
+    {
+      "id": "e9",
+      "name": "Reverse Pec Deck",
+      "muscle": "Rear deltoids",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Face Pull"]
+    },
+    {
+      "id": "e10",
+      "name": "Biceps Curl",
+      "muscle": "Biceps",
+      "secondary": [],
+      "equipment": "Dumbbell",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Hammer Curl",
+        "Biceps Curl Machine",
+        "Incline Dumbbell Curl"
+      ]
+    },
+    {
+      "id": "e11",
+      "name": "Hammer Curl",
+      "muscle": "Biceps",
+      "secondary": [],
+      "equipment": "Dumbbell",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Biceps Curl",
+        "Biceps Curl Machine",
+        "Incline Dumbbell Curl"
+      ]
+    },
+    {
+      "id": "e12",
+      "name": "Squat",
+      "muscle": "Quadriceps",
+      "secondary": ["Hamstrings"],
+      "equipment": "Barbell",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk. Keep knees tracking with your toes and heels planted. Lower to a comfortable controlled depth, then drive up.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Leg Press", "Hack Squat", "Leg Extension"]
+    },
+    {
+      "id": "e13",
+      "name": "Leg Press",
+      "muscle": "Quadriceps",
+      "secondary": ["Hamstrings"],
+      "equipment": "Machine",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk. Keep knees tracking with your toes and heels planted. Lower to a comfortable controlled depth, then drive up.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Squat", "Hack Squat", "Leg Extension"]
+    },
+    {
+      "id": "e14",
+      "name": "Seated Leg Curl",
+      "muscle": "Hamstrings",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Align your knees with the machine pivot. Keep hips against the pad. Curl smoothly, pause, then extend under control.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Lying Leg Curl"]
+    },
+    {
+      "id": "e15",
+      "name": "Hip Adduction",
+      "muscle": "Adductors",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Align the pads comfortably inside your knees. Bring legs together slowly and return without forcing your hips.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": []
+    },
+    {
+      "id": "e16",
+      "name": "Standing Calf Raises",
+      "muscle": "Calves",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Use a stable support. Lower heels through a comfortable range, rise onto your toes and pause without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Seated Calf Raises"]
+    },
+    {
+      "id": "e17",
+      "name": "Machine Abdominal Crunch",
+      "muscle": "Abdominals",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Exhale as you curl your pelvis toward your ribs. Avoid pulling with your neck or swinging your legs.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Hanging Knee Raises"]
+    },
+    {
+      "id": "e18",
+      "name": "Incline Bench Press",
+      "muscle": "Chest",
+      "secondary": ["Triceps", "Front deltoids"],
+      "equipment": "Barbell",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Set your shoulders against the support. Keep wrists stacked over elbows. Lower under control and press or bring your arms together without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Bench Press",
+        "Incline Dumbbell Press",
+        "Pec Fly Machine",
+        "Decline Chest Press Machine",
+        "High to Low Cable Fly"
+      ]
+    },
+    {
+      "id": "e19",
+      "name": "Decline Chest Press Machine",
+      "muscle": "Chest",
+      "secondary": ["Triceps", "Front deltoids"],
+      "equipment": "Machine",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Set your shoulders against the support. Keep wrists stacked over elbows. Lower under control and press or bring your arms together without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Bench Press",
+        "Incline Dumbbell Press",
+        "Pec Fly Machine",
+        "Incline Bench Press",
+        "High to Low Cable Fly"
+      ]
+    },
+    {
+      "id": "e20",
+      "name": "High to Low Cable Fly",
+      "muscle": "Chest",
+      "secondary": ["Triceps", "Front deltoids"],
+      "equipment": "Cable",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Set your shoulders against the support. Keep wrists stacked over elbows. Lower under control and press or bring your arms together without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Bench Press",
+        "Incline Dumbbell Press",
+        "Pec Fly Machine",
+        "Incline Bench Press",
+        "Decline Chest Press Machine"
+      ]
+    },
+    {
+      "id": "e21",
+      "name": "Dumbbell Shoulder Press",
+      "muscle": "Front deltoids",
+      "secondary": [],
+      "equipment": "Dumbbell",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Shoulder Press"]
+    },
+    {
+      "id": "e22",
+      "name": "Cable Lateral Raises",
+      "muscle": "Side deltoids",
+      "secondary": [],
+      "equipment": "Cable",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Lateral Raises"]
+    },
+    {
+      "id": "e23",
+      "name": "Overhead Triceps Extension",
+      "muscle": "Triceps",
+      "secondary": [],
+      "equipment": "Cable",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Triceps Pushdown"]
+    },
+    {
+      "id": "e24",
+      "name": "Pull-ups",
+      "muscle": "Back",
+      "secondary": ["Biceps"],
+      "equipment": "Bodyweight",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Brace your trunk and keep your spine neutral. Pull elbows toward your torso; return slowly without swinging.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Lat Pulldown",
+        "Hammer Strength D.Y. Row",
+        "Seated Cable Row",
+        "T-Bar Row"
+      ]
+    },
+    {
+      "id": "e25",
+      "name": "T-Bar Row",
+      "muscle": "Back",
+      "secondary": ["Biceps"],
+      "equipment": "Machine",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk and keep your spine neutral. Pull elbows toward your torso; return slowly without swinging.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": [
+        "Lat Pulldown",
+        "Hammer Strength D.Y. Row",
+        "Seated Cable Row",
+        "Pull-ups"
+      ]
+    },
+    {
+      "id": "e26",
+      "name": "Dumbbell/Machine Shrugs",
+      "muscle": "Traps",
+      "secondary": [],
+      "equipment": "Dumbbell / Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": []
+    },
+    {
+      "id": "e27",
+      "name": "Face Pull",
+      "muscle": "Rear deltoids",
+      "secondary": [],
+      "equipment": "Cable",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Reverse Pec Deck"]
+    },
+    {
+      "id": "e28",
+      "name": "Biceps Curl Machine",
+      "muscle": "Biceps",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Biceps Curl", "Hammer Curl", "Incline Dumbbell Curl"]
+    },
+    {
+      "id": "e29",
+      "name": "Incline Dumbbell Curl",
+      "muscle": "Biceps",
+      "secondary": [],
+      "equipment": "Dumbbell",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Choose a stable position and a comfortable range of motion. Move the target joint smoothly, keep your trunk braced and control the return. Stop if you feel sharp pain.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Biceps Curl", "Hammer Curl", "Biceps Curl Machine"]
+    },
+    {
+      "id": "e30",
+      "name": "Hack Squat",
+      "muscle": "Quadriceps",
+      "secondary": ["Hamstrings"],
+      "equipment": "Machine",
+      "eligible": true,
+      "category": "Compound",
+      "rest": 120,
+      "instructions": "Brace your trunk. Keep knees tracking with your toes and heels planted. Lower to a comfortable controlled depth, then drive up.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Squat", "Leg Press", "Leg Extension"]
+    },
+    {
+      "id": "e31",
+      "name": "Leg Extension",
+      "muscle": "Quadriceps",
+      "secondary": ["Hamstrings"],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Brace your trunk. Keep knees tracking with your toes and heels planted. Lower to a comfortable controlled depth, then drive up.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Squat", "Leg Press", "Hack Squat"]
+    },
+    {
+      "id": "e32",
+      "name": "Lying Leg Curl",
+      "muscle": "Hamstrings",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Align your knees with the machine pivot. Keep hips against the pad. Curl smoothly, pause, then extend under control.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Seated Leg Curl"]
+    },
+    {
+      "id": "e33",
+      "name": "Seated Calf Raises",
+      "muscle": "Calves",
+      "secondary": [],
+      "equipment": "Machine",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Use a stable support. Lower heels through a comfortable range, rise onto your toes and pause without bouncing.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Standing Calf Raises"]
+    },
+    {
+      "id": "e34",
+      "name": "Hanging Knee Raises",
+      "muscle": "Abdominals",
+      "secondary": [],
+      "equipment": "Bodyweight",
+      "eligible": false,
+      "category": "Isolation / bodyweight",
+      "rest": 90,
+      "instructions": "Exhale as you curl your pelvis toward your ribs. Avoid pulling with your neck or swinging your legs.",
+      "mistakes": "Using momentum, rushing the lowering phase, forcing a painful range, or choosing a load you cannot control.",
+      "alternatives": ["Machine Abdominal Crunch"]
+    }
+  ],
+  "sessions": [
+    {
+      "id": "0de05ab7-bc1c-497c-a4cd-8d45aa267020",
+      "workoutId": "w0",
+      "programId": "default",
+      "name": "Push A",
+      "start": 1700000000000,
+      "pausedMs": 0,
+      "exercises": [
+        {
+          "exerciseId": "e0",
+          "sets": 3,
+          "min": 6,
+          "max": 10,
+          "rest": 120,
+          "increment": 2.5,
+          "name": "Bench Press",
+          "muscle": "Chest",
+          "secondary": ["Triceps", "Front deltoids"],
+          "eligible": true,
+          "notes": "Test fixture: preserve this historical note",
+          "feedback": "",
+          "logs": [
+            {
+              "id": "a394583d-811c-4651-a652-570f816bac48",
+              "weight": 47.5,
+              "reps": 9,
+              "rir": null,
+              "warmup": false,
+              "done": true
+            },
+            {
+              "id": "47aa13d1-e975-40a0-9e5f-fc5936127820",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "38045ccf-14d9-4be7-85e7-c15f6148ddd4",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            }
+          ]
+        },
+        {
+          "exerciseId": "e1",
+          "sets": 2,
+          "min": 8,
+          "max": 12,
+          "rest": 120,
+          "increment": 2.5,
+          "name": "Incline Dumbbell Press",
+          "muscle": "Chest",
+          "secondary": ["Triceps", "Front deltoids"],
+          "eligible": true,
+          "notes": "",
+          "feedback": "",
+          "logs": [
+            {
+              "id": "91e6d526-8a29-4a84-b351-882d519cb2da",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "c757fc4f-b307-478b-a4e4-f5bbfcdb0d95",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            }
+          ]
+        },
+        {
+          "exerciseId": "e2",
+          "sets": 2,
+          "min": 12,
+          "max": 15,
+          "rest": 90,
+          "increment": 2.5,
+          "name": "Pec Fly Machine",
+          "muscle": "Chest",
+          "secondary": ["Triceps", "Front deltoids"],
+          "eligible": false,
+          "notes": "",
+          "feedback": "",
+          "logs": [
+            {
+              "id": "dc9b6298-818d-47f2-8682-00870639934a",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "647ce2a7-bf6b-4b74-be5e-7c9c09ac5da1",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            }
+          ]
+        },
+        {
+          "exerciseId": "e3",
+          "sets": 2,
+          "min": 8,
+          "max": 12,
+          "rest": 120,
+          "increment": 2.5,
+          "name": "Shoulder Press",
+          "muscle": "Front deltoids",
+          "secondary": [],
+          "eligible": true,
+          "notes": "",
+          "feedback": "",
+          "logs": [
+            {
+              "id": "03efdfb6-2b1b-4ebc-abfa-fa455bfeb0a1",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "290e39c9-31f3-47cd-8cdb-a29852bf4f3d",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            }
+          ]
+        },
+        {
+          "exerciseId": "e4",
+          "sets": 3,
+          "min": 12,
+          "max": 15,
+          "rest": 90,
+          "increment": 2.5,
+          "name": "Lateral Raises",
+          "muscle": "Side deltoids",
+          "secondary": [],
+          "eligible": false,
+          "notes": "",
+          "feedback": "",
+          "logs": [
+            {
+              "id": "ac303c5a-044d-4868-b120-3fc1b40564d9",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "647dc698-dff6-4792-944e-c4e3798eb30c",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "ad9234a0-b958-484e-bd46-8aefad686ee4",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            }
+          ]
+        },
+        {
+          "exerciseId": "e5",
+          "sets": 2,
+          "min": 10,
+          "max": 15,
+          "rest": 90,
+          "increment": 2.5,
+          "name": "Triceps Pushdown",
+          "muscle": "Triceps",
+          "secondary": [],
+          "eligible": false,
+          "notes": "",
+          "feedback": "",
+          "logs": [
+            {
+              "id": "0a8086ea-5e00-4a11-843c-ab81d44b580c",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            },
+            {
+              "id": "d9bd2129-5bc2-443d-b085-ad90c3555981",
+              "weight": null,
+              "reps": null,
+              "rir": null,
+              "warmup": false,
+              "done": false
+            }
+          ]
+        }
+      ],
+      "end": 1700003600000
+    }
+  ],
+  "active": {
+    "id": "09a9f695-1ba5-4034-a9fd-5d8727964f1a",
+    "workoutId": "w1",
+    "programId": "default",
+    "name": "Pull A",
+    "start": 1700100000000,
+    "pausedMs": 0,
+    "exercises": [
+      {
+        "exerciseId": "e6",
+        "sets": 3,
+        "min": 8,
+        "max": 12,
+        "rest": 120,
+        "increment": 2.5,
+        "name": "Lat Pulldown",
+        "muscle": "Back",
+        "secondary": ["Biceps"],
+        "eligible": true,
+        "notes": "",
+        "feedback": "",
+        "logs": [
+          {
+            "id": "3b5bcc72-aeea-4375-8a74-36a0eb7d856b",
+            "weight": 40,
+            "reps": 8,
+            "rir": null,
+            "warmup": false,
+            "done": true
+          },
+          {
+            "id": "c1216bf3-aaac-4bf1-b784-8e711d1e73f2",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "afed59ed-a5f2-4731-8d1d-05d49eea3a81",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          }
+        ]
+      },
+      {
+        "exerciseId": "e7",
+        "sets": 3,
+        "min": 8,
+        "max": 12,
+        "rest": 120,
+        "increment": 2.5,
+        "name": "Hammer Strength D.Y. Row",
+        "muscle": "Back",
+        "secondary": ["Biceps"],
+        "eligible": true,
+        "notes": "",
+        "feedback": "",
+        "logs": [
+          {
+            "id": "0c4ee870-faa1-4954-b581-e62fe7173717",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "e14826e6-14e7-47c2-a699-edd828f57cb9",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "a46413ca-38a7-4c2d-8796-ab8cea24fc5e",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          }
+        ]
+      },
+      {
+        "exerciseId": "e8",
+        "sets": 2,
+        "min": 10,
+        "max": 12,
+        "rest": 120,
+        "increment": 2.5,
+        "name": "Seated Cable Row",
+        "muscle": "Back",
+        "secondary": ["Biceps"],
+        "eligible": true,
+        "notes": "",
+        "feedback": "",
+        "logs": [
+          {
+            "id": "f3697cc5-82f2-4f22-9d6f-ba5c7a75d3e0",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "efdfccca-f077-475d-aa33-1a5f769e65bf",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          }
+        ]
+      },
+      {
+        "exerciseId": "e9",
+        "sets": 3,
+        "min": 12,
+        "max": 15,
+        "rest": 90,
+        "increment": 2.5,
+        "name": "Reverse Pec Deck",
+        "muscle": "Rear deltoids",
+        "secondary": [],
+        "eligible": false,
+        "notes": "",
+        "feedback": "",
+        "logs": [
+          {
+            "id": "f95a438b-c90b-488f-a51c-efac97cce44d",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "e738d1bb-927b-48b1-bf31-94c5d87a7b10",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "ba8ea576-bdef-41f1-a9d6-f689c01d0cf5",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          }
+        ]
+      },
+      {
+        "exerciseId": "e10",
+        "sets": 2,
+        "min": 10,
+        "max": 12,
+        "rest": 90,
+        "increment": 2.5,
+        "name": "Biceps Curl",
+        "muscle": "Biceps",
+        "secondary": [],
+        "eligible": false,
+        "notes": "",
+        "feedback": "",
+        "logs": [
+          {
+            "id": "04b5fbe3-4c2a-480f-b0ee-15f6b12fea7d",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "9186a67e-1881-433a-9011-20d87101af01",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          }
+        ]
+      },
+      {
+        "exerciseId": "e11",
+        "sets": 2,
+        "min": 10,
+        "max": 12,
+        "rest": 90,
+        "increment": 2.5,
+        "name": "Hammer Curl",
+        "muscle": "Biceps",
+        "secondary": [],
+        "eligible": false,
+        "notes": "",
+        "feedback": "",
+        "logs": [
+          {
+            "id": "584e9df0-f0ff-4c74-91ce-443a1c3a2ed6",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          },
+          {
+            "id": "b05fda13-1015-4358-8bbc-ebda5a5a3cf2",
+            "weight": null,
+            "reps": null,
+            "rir": null,
+            "warmup": false,
+            "done": false
+          }
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "lang": "en",
+    "unit": "kg",
+    "autoRest": true,
+    "sound": false,
+    "rest": 90,
+    "increment": 2.5,
+    "coach": true,
+    "programId": "default"
+  }
+}

@@ -1,3 +1,4 @@
+import { ExercisePicker } from "./ExercisePicker";
 import { useState } from "react";
 import type { Dispatch, SetStateAction, ReactNode } from "react";
 import { Trash2 } from "lucide-react";
@@ -47,6 +48,20 @@ export function ProgramEditor({
                   const idx = copy.programs.findIndex(
                     (p) => p.id === editProgram.id,
                   );
+                  editProgram.workouts = editProgram.workouts.map((w) => ({
+                    ...w,
+                    focus: [
+                      ...new Set(
+                        w.exercises
+                          .map(
+                            (p) =>
+                              copy.exercises.find((e) => e.id === p.exerciseId)
+                                ?.muscle,
+                          )
+                          .filter(Boolean),
+                      ),
+                    ].join(" · "),
+                  }));
                   if (idx < 0) copy.programs.push(editProgram);
                   else copy.programs[idx] = editProgram;
                   C.parseBackup(C.backup(copy));
@@ -123,6 +138,16 @@ export function ProgramEditor({
                     </option>
                   ))}
                 </select>
+                <ExercisePicker
+                  data={d}
+                  currentId={e.exerciseId}
+                  t={t}
+                  onSelect={(exercise) => {
+                    const c = clone(editProgram);
+                    c.workouts[wi].exercises[ei].exerciseId = exercise.id;
+                    setEditProgram(c);
+                  }}
+                />
                 <div className="row wrap">
                   {(["sets", "min", "max", "rest", "increment"] as const).map(
                     (key, ki) =>

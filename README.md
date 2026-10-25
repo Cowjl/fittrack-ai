@@ -1,4 +1,6 @@
-# FitTrack AI
+# FitTrack AI 2.0
+
+This is the in-place v2 upgrade of the existing live application at https://fittrack-ai-cw9.pages.dev/. See [UPGRADE-v2.md](UPGRADE-v2.md) for all 356 catalog exercises, 18 templates, generator rules and migration details; [VERIFICATION-v2.md](VERIFICATION-v2.md) for current checks; and [PUBLISH-v2.md](PUBLISH-v2.md) for publishing status.
 
 A static, local-first workout PWA built with React, TypeScript, Vite, Tailwind, Dexie/IndexedDB, Recharts, Lucide and vite-plugin-pwa. Arabic is the default language; English and RTL/LTR switching are available in Settings. No accounts, API keys, backend, analytics, AI service, or cloud database are used.
 
@@ -54,7 +56,7 @@ Run `npm run build`, then create a **Pages Direct Upload** project and upload th
 
 `public/_redirects` supplies the static SPA fallback. `public/_headers` supplies security headers and immutable caching for hashed assets. The service worker precaches the app and all local icons. There are no server-side functions.
 
-Within Cloudflare Pages' free-plan limits this app has no ongoing operating costs. Keep the project on the free plan and do not add paid products. Hosting limits and terms remain controlled by Cloudflare. A public site has **not** been published by this workspace; deployment requires your Cloudflare account.
+Within Cloudflare Pages' free-plan limits this app has no ongoing operating costs. Keep the project on the free plan and do not add paid products. Hosting limits and terms remain controlled by Cloudflare. The existing v1 site is live at https://fittrack-ai-cw9.pages.dev/. For the v2 publication status and upgrade steps, see `PUBLISH-v2.md`.
 
 ## Install on iPhone and Android
 
@@ -101,7 +103,7 @@ Settings → Export backup downloads the complete personal dataset as versioned 
 
 Settings → Import backup validates the full structure before requesting replacement confirmation. Invalid files never replace the stored data. Import replaces data; it does not merge or deduplicate separate backups. Backups contain your personal notes and workout data, so store them privately.
 
-IndexedDB writes are serialized and transactional. Schema version 2 safely upgrades version 1 and adds revision checks: a stale tab cannot silently overwrite another tab's saved data. If a conflict appears, export any unsaved local work and reload. Storage failures display an unsaved warning and export/retry controls. The app requests confirmation for destructive actions. Browser storage can still be cleared or evicted by the device; no frontend-only app can guarantee it against OS/browser removal. A JSON backup is the recovery mechanism.
+IndexedDB writes are serialized and transactional. Schema version 3 preserves versions 1 and 2, creates a pre-upgrade recovery checkpoint, and retains revision checks: a stale tab cannot silently overwrite another tab's saved data. If a conflict appears, export any unsaved local work and reload. Storage failures display an unsaved warning and export/retry controls. The app requests confirmation for destructive actions. Browser storage can still be cleared or evicted by the device; no frontend-only app can guarantee it against OS/browser removal. A JSON backup is the recovery mechanism.
 
 ## Project structure
 
@@ -110,7 +112,7 @@ src/
   main.tsx                     App shell, pages, state and persistence flow
   core.ts                      Typed models, exact PPL defaults, session logic,
                                coach, records and strict backup validation
-  db.ts                        Dexie schema, v1→v2 migration, conflict checks
+  db.ts                        Dexie v1→v2→v3 migrations, checkpoint, conflicts
   i18n.ts                      Arabic UI dictionary (English source labels)
   style.css                    Responsive design, RTL-safe layout, safe areas
   components/
@@ -134,4 +136,4 @@ package.json / package-lock.json
 
 ## Verification and boundaries
 
-See `VERIFICATION.md` for the exact final commands and results. No cloud deployment, real-device iPhone test or physical gym session is implied by passing automated tests. There is no cloud sync, account system, leaderboard or external AI; these are intentionally excluded from version 1. Sharing sends app links or explicitly chosen summary text, never the local database.
+See `VERIFICATION-v2.md` for current results; `VERIFICATION.md` retains the v1 baseline. The v1 site was deployed and verified earlier. Publication of this v2 upgrade is recorded separately in `PUBLISH-v2.md`. No real-device iPhone test or physical gym session is implied by passing automated tests. There is no cloud sync, account system, leaderboard or external AI; these are intentionally excluded from version 1. Sharing sends app links or explicitly chosen summary text, never the local database.
